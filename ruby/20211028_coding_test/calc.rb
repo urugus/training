@@ -10,6 +10,40 @@ error_dict = {
   'OperatorError': 'multiplier & divisor must be a number at "* , /"'
 }
 
+# 配列と単位を与えると最小単位に直した配列と最小単位を返す関数
+def change_min_unit(input_list, unit_dict, unit_list, min_sym)
+  output_list = []
+  error_sym = ''
+  input_list.each do |content|
+    # 質量の場合、数値と単位に分解
+    if mass = /(\d+)([a-z]+)/.match(content)
+      value = mass[1].to_i
+      unit = mass[2]
+      # リストにある単位の場合、最小単位に変換する
+      if unit_list.include?(unit)
+        unit_sym = unit.to_sym
+        unit_magni = unit_dict[unit_sym]
+        min_unit_value = value * unit_magni
+        # 最小の単位を記憶
+        if unit_dict[unit_sym] < unit_dict[min_sym]
+          min_sym = unit_sym
+        end
+        # 配列を上書きする
+        output_list.push(min_unit_value)
+      # リストにない単位の場合エラーを返す
+      else
+        # エラーをセット
+        error_sym = :UnitError
+      end
+    # 質量以外の場合はそのまま配列に追加
+    else
+      output_list.push(content)
+    end
+  end
+  return {list: output_list, min_sym: min_sym, error_sym: error_sym}
+end
+
+
 # 実行関数
 def calc(input)
   # 単位の辞書
@@ -22,40 +56,34 @@ def calc(input)
   # 途中経過のリストを用意
   output_list = []
 
-  #  計算を実行
-  input_list.each do |content|
-    # 質量の場合、数値と単位に分解
-    if mass = /(\d+)([a-z]+)/.match(content)
-      value = mass[1].to_i
-      unit = mass[2]
-      # リストにある単位の場合、最小単位に変換する
-      if unit_list.include?(unit)
-        unit_sym = unit.to_sym
-        changed_mass = "#{(value * unit_dict[unit_sym]).to_s}mg"
-        # 最小の単位を記憶
-        if unit_dict[unit_sym] < unit_dict[min_sym]
-          min_sym = unit_sym
-        end
-        # 配列を上書きする
-        output_list.push(changed_mass)
-      # リストにない単位の場合エラーを出す
-      else
-        # シンボルエラーをセット
-        puts "symbol error"
-      end
-    else
-      output_list.push(content)
+  # 配列のインデックス
+  index = 0
 
-    end
-  end
-  # 乗除を実行
-    # 質量 × 数値以外の場合はエラーを出す
+  # 質量の場合、数値と単位に分解
+  unit_changed_result = change_min_unit(
+    input_list, unit_dict, unit_list, min_sym
+    )
+  output_list = unit_changed_result[:list]
+  min_sym = unit_changed_result[:min_sym]
+  error_sym = unit_changed_result[:error_sym]
+    # 乗除を実行
+    # elsif content == '*'
+    #   product = input_list[index+1].to_i
+    #   last_content = output_list.pop
+    #   output_list.push(product * last_content)
+    #   # 質量 × 数値以外の場合はエラーを出す
+    # else
+    #   output_list.push(content)
+
+    # end
   # 加減を実行
   # 単位を付け直す
     # 単位の辞書を参照し、記憶しておいた最小単位の値で割る
     # 最小単位をつけて文字列に変換
     # puts min_sym.to_s
   puts output_list.to_s
+  puts error_sym
+  puts min_sym
 end
 
-calc('1kg + 3g')
+calc('1kg + 3g * 3')
