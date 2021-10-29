@@ -1,3 +1,4 @@
-def temp input
-    puts '4kg'
+def calc(input)
+  '4g'
 end
+
