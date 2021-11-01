@@ -126,15 +126,17 @@ def calc(input)
   # puts ans_value
 
   # 単位の辞書を参照し、記憶しておいた最小単位の値で割る
+  ans_weight = ans_value.to_f / unit_dict[min_sym]
+
   # 最小単位をつけて文字列に変換
-  ans_weight = (ans_value.to_f / unit_dict[min_sym]).to_s + min_sym.to_s
+  anser = ans_weight.to_i.to_s + min_sym.to_s
 
   # エラーがあればエラーを、なければ答えを出力
   if error_sym.nil?
-    puts ans_weight
+    return anser
   else
-    puts error_dict[error_sym]
+    return error_dict[error_sym]
   end
 end
 
-calc('1kg * 4 - 3g * 3 / 2 + 2kg')
+puts calc('1kg + 300g / 7')
