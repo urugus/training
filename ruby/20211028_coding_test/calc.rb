@@ -39,7 +39,7 @@ def change_min_unit(input_list, unit_dict, unit_list, min_sym)
 end
 
 
-# 配列を与えると乗除を実行して返す関数
+# 配列を与えると乗算を実行して返す関数
 def multiply(input_list)
   oper_index = input_list.index('*')
   unless oper_index.nil?
@@ -47,6 +47,23 @@ def multiply(input_list)
     multiplicand = input_list[oper_index - 1]
     # 被乗数を置換
     input_list[oper_index - 1] = multiplicand * product
+    input_list.delete_at(oper_index)
+    input_list.delete_at(oper_index)
+    multiply(input_list)
+  end
+  # 質量 × 数値以外の場合はエラーを出す
+  return input_list 
+end
+
+
+# 配列を与えると除算を実行して返す関数
+def divide(input_list)
+  oper_index = input_list.index('/')
+  unless oper_index.nil?
+    product = input_list[oper_index + 1].to_i
+    multiplicand = input_list[oper_index - 1]
+    # 被乗数を置換
+    input_list[oper_index - 1] = multiplicand / product
     input_list.delete_at(oper_index)
     input_list.delete_at(oper_index)
     multiply(input_list)
@@ -83,6 +100,7 @@ def calc(input)
 
   # 乗除を実行
   output_list = multiply(output_list)
+  output_list = divide(output_list)
 
     # end
   # 加減を実行
@@ -95,4 +113,4 @@ def calc(input)
   puts min_sym
 end
 
-calc('1kg * 4 + 3g * 3 * 3')
+calc('1kg * 4 + 3g * 3 / 2')
