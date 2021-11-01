@@ -1,7 +1,6 @@
 # 配列と単位を与えると最小単位に直した配列と最小単位を返す関数
-def change_min_unit(input_list, unit_dict, unit_list, min_sym)
+def change_min_unit(input_list, unit_dict, min_sym)
   output_list = []
-  error_sym = nil
   input_list.each do |content|
     # 質量の場合、数値と単位に分解
     if mass = /(\d+)([a-z]+)/.match(content)
@@ -22,7 +21,7 @@ def change_min_unit(input_list, unit_dict, unit_list, min_sym)
       output_list.push(content)
     end
   end
-  return {list: output_list, min_sym: min_sym, error_sym: error_sym}
+  return {list: output_list, min_sym: min_sym}
 end
 
 
@@ -163,11 +162,10 @@ def calc(input)
 
     # 質量の場合、数値と単位に分解
     unit_changed_result = change_min_unit(
-      input_list, unit_dict, unit_list, min_sym
+      input_list, unit_dict, min_sym
       )
     output_list = unit_changed_result[:list]
     min_sym = unit_changed_result[:min_sym]
-    error_sym = unit_changed_result[:error_sym]
 
     # 乗除を実行
     output_list = multiply(output_list)
