@@ -168,24 +168,21 @@ def calc(input)
     output_list = unit_changed_result[:list]
     min_sym = unit_changed_result[:min_sym]
     error_sym = unit_changed_result[:error_sym]
-    # puts output_list.to_s
 
     # 乗除を実行
     output_list = multiply(output_list)
     output_list = divide(output_list)
-    # puts output_list.to_s
 
     # 加減を実行
     ans_value = add_all(output_list)
-    # puts ans_value
 
     # 単位の辞書を参照し、記憶しておいた最小単位の値で割る
     ans_weight = ans_value.to_f / unit_dict[min_sym]
 
     # 最小単位をつけて文字列に変換
-    anser = ans_weight.to_i.to_s + min_sym.to_s
+    answer = ans_weight.to_i.to_s + min_sym.to_s
 
-    return anser
+    return answer
   end
 end
 
