@@ -12,7 +12,7 @@ def change_min_unit(input_list, unit_dict, min_sym)
       min_unit_value = value * unit_magni
       # 最小の単位を記憶
       if unit_dict[unit_sym] < unit_dict[min_sym]
-        min_sym = unit_sym
+          min_sym = unit_sym
       end
       # 配列を上書きする
       output_list.push(min_unit_value)
