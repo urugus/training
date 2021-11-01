@@ -15,11 +15,12 @@ class CalcTest < Minitest::Test
 
     # 異常系のテスト実行
     def test_irregular
-        assert_equal "assert_equal '4042g', calc('1kg * 2 * 2 + 300g / 7')",
-            calc('+ 3g + 100mg')
-        assert_equal 'error: the unit must be one of mg,g,kg (ArgumentError)', '1kg + 3t'
+        assert_equal 'first argument must be weight-value (ex: 1kg)
+        (ArgumentError)', calc('+ 3g + 100mg')
+        assert_equal 'error: the unit must be one of mg,g,kg (ArgumentError)',
+         calc('1kg + 3t')
         assert_equal 'error: multiplier & divisor must be a number at "* , /"
-        (ArgumentError)', '1kg * 3g'
+        (ArgumentError)', calc('1kg * 3g')
     end
 end
 
