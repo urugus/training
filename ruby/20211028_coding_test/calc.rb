@@ -1,8 +1,3 @@
-
-# 演算子の辞書
-multi_div = ['*', '/']
-plus_minus = ['+', '-']
-
 # エラーコードと内容のリスト
 error_dict = {
   'ValueError': 'first argument must be weight-value (ex: 1kg) (ArgumentError)',
@@ -44,6 +39,23 @@ def change_min_unit(input_list, unit_dict, unit_list, min_sym)
 end
 
 
+# 配列を与えると乗除を実行して返す関数
+def multiply(input_list)
+  oper_index = input_list.index('*')
+  unless oper_index.nil?
+    product = input_list[oper_index + 1].to_i
+    multiplicand = input_list[oper_index - 1]
+    # 被乗数を置換
+    input_list[oper_index - 1] = multiplicand * product
+    input_list.delete_at(oper_index)
+    input_list.delete_at(oper_index)
+    multiply(input_list)
+  end
+  # 質量 × 数値以外の場合はエラーを出す
+  return input_list 
+end
+
+
 # 実行関数
 def calc(input)
   # 単位の辞書
@@ -66,14 +78,11 @@ def calc(input)
   output_list = unit_changed_result[:list]
   min_sym = unit_changed_result[:min_sym]
   error_sym = unit_changed_result[:error_sym]
-    # 乗除を実行
-    # elsif content == '*'
-    #   product = input_list[index+1].to_i
-    #   last_content = output_list.pop
-    #   output_list.push(product * last_content)
-    #   # 質量 × 数値以外の場合はエラーを出す
-    # else
-    #   output_list.push(content)
+  
+  puts output_list.to_s
+
+  # 乗除を実行
+  output_list = multiply(output_list)
 
     # end
   # 加減を実行
@@ -86,4 +95,4 @@ def calc(input)
   puts min_sym
 end
 
-calc('1kg + 3g * 3')
+calc('1kg * 4 + 3g * 3 * 3')
