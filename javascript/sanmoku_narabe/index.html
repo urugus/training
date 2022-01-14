@@ -38,11 +38,11 @@
     <h1>○×ゲーム</h1>
     <div id="app"></div>
     <script>
-      const defaultText = "";
+      const defaultText = "　";
       const defaultTableSize = 3;
       
       // マルバツを交互に返す
-      const getNextValue = () => {
+      const nextValue = () => {
         const circle = "○";
         const cross = "×";
         let status = true;
@@ -54,18 +54,12 @@
         }
         return get;
       }
-
-      // clickした箇所を書き換える
-      const inputValue = (value) => {
-        this.textContent = value;
-        console.log(value);
-      }
+      const value = nextValue();
       
       // Tableを作成する
       const generateTable = (tableSize, cellText) => {
         const tableElement = document.createElement("table");
         const tableBodyElement = document.createElement("tbody");
-        
 
         for (let i = 0; i < tableSize; i++) {
           const rowElement = document.createElement("tr");
@@ -73,8 +67,9 @@
           for (let j = 0; j < tableSize; j++) {
             const cell = document.createElement("td");
             cell.appendChild(document.createTextNode(cellText));
-            cell.addEventListener("click", inputValue(getNextValue));
-            console.log(cell);
+            cell.addEventListener("click", function inputValue() {
+              this.textContent = value();
+            }, {once: true});
             rowElement.appendChild(cell);
           }
           tableBodyElement.appendChild(rowElement);
