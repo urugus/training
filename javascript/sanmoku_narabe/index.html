@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>○×ゲーム</title>
+    <style type="text/css">
+        form {
+          margin: 30px;
+          font-size: 20px;
+        }
+        form input {
+          margin-left: 10px;
+          width: 40px;
+          text-align: right;
+          font-size: 20px;
+        }
+        button {
+          margin-left: 30px;
+          height: 30px;
+        }
+
+        table {
+          margin: 30px;
+          border: 2px black solid; 
+        }
+
+        table td {
+          border: 2px black solid; 
+          border-collapse: collapse;
+          width: 100px;
+          height: 100px;
+          text-align: center;
+          font-size: 50px;
+        }
+    </style>
+  </head>
+  <body>
+    <h1>○×ゲーム</h1>
+    <div id="app"></div>
+    <script>
+      const defaultText = "";
+      const defaultTableSize = 3;
+      
+      // マルバツを交互に返す
+      const getNextValue = () => {
+        const circle = "○";
+        const cross = "×";
+        let status = true;
+
+        const get = () => {
+          status = !status;
+
+          return (status ? circle : cross);
+        }
+        return get;
+      }
+
+      // clickした箇所を書き換える
+      const inputValue = (value) => {
+        this.textContent = value;
+        console.log(value);
+      }
+      
+      // Tableを作成する
+      const generateTable = (tableSize, cellText) => {
+        const tableElement = document.createElement("table");
+        const tableBodyElement = document.createElement("tbody");
+        
+
+        for (let i = 0; i < tableSize; i++) {
+          const rowElement = document.createElement("tr");
+          
+          for (let j = 0; j < tableSize; j++) {
+            const cell = document.createElement("td");
+            cell.appendChild(document.createTextNode(cellText));
+            cell.addEventListener("click", inputValue(getNextValue));
+            console.log(cell);
+            rowElement.appendChild(cell);
+          }
+          tableBodyElement.appendChild(rowElement);
+        }
+        tableElement.appendChild(tableBodyElement);
+        return tableElement;
+      }
+      
+      document.getElementById("app").appendChild(generateTable(defaultTableSize, defaultText));
+    </script>
+  </body>
+</html>
