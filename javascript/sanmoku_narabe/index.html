@@ -67,8 +67,8 @@
           for (let j = 0; j < tableSize; j++) {
             const cell = document.createElement("td");
             cell.appendChild(document.createTextNode(cellText));
-            cell.addEventListener("click", function inputValue() {
-              this.textContent = value();
+            cell.addEventListener("click", () => {
+              cell.textContent = value();
             }, {once: true});
             rowElement.appendChild(cell);
           }
@@ -77,8 +77,19 @@
         tableElement.appendChild(tableBodyElement);
         return tableElement;
       }
-      
+
+      // テーブルを作成
       document.getElementById("app").appendChild(generateTable(defaultTableSize, defaultText));
+
+      // 勝敗判定
+      const judge = () => {
+        // 列チェック
+        const checkTheRowMatch = () => {
+          
+        }
+        // 行チェック
+        // 斜めチェック
+      }
     </script>
   </body>
 </html>
