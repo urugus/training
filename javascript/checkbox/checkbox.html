@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <title>チェックボックス</title>
+    <style type="text/css">
+      #app {
+        width: 90px;
+      }
+  </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const displayForm = () => {
+        const formElem = document.createElement("form");
+        const formButtonElem = document.createElement("button");
+        formElem.addEventListener('submit', addContent);
+      }
+      displayForm();
+    </script>
+  </body>
+</html>
